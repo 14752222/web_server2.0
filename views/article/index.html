@@ -1,0 +1,28 @@
+{{ define "article/index.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>{{.title}}</title>
+    <script>
+        const tmp = {
+        {.
+            content
+        }
+        }
+        ;
+    </script>
+    <script>
+        window.onload = () => {
+            const app = document.querySelector('.app')
+            app.innerHTML = tmp
+        }
+    </script>
+</head>
+<body>
+<div class="app"></div>
+</body>
+</html>
+{{ end }}

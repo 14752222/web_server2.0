@@ -1,0 +1,29 @@
+mode: development
+secret_key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+server:
+  port: 8080
+  readTimeout: 60
+  writeTimeout: 60
+  maxHeaderBytes: 20480
+  address: http://localhost
+mysql:
+  host: db
+  port: 3306
+  user: root
+  password: 12345678
+  database: app
+  charset: utf8
+  pool: 10
+  maxIdle: 10
+redis:
+  host: "localhost" # Redis 地址
+  port: 6379 # 端口
+  password: "123456" # Redis 密码
+  database: 0 # 数据库
+  pool: 10 # 最大连接数
+  prefix: "study_redis" # 前缀
+  timeout: 30000 # 超时时间
+  minIdle: 0 # 最小空闲连接数
+  idleTimeoutMillis: 30000 # 空闲连接超时时间
+
+

@@ -1,0 +1,2 @@
+2023/10/18 05:06:36 [emerg] 1#1: host not found in upstream "app" in /etc/nginx/nginx.conf:34
+2023/10/18 05:37:06 [error] 20#20: *1 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.18.0.1, server: , request: "GET /favicon.ico HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/"
