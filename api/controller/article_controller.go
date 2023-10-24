@@ -145,3 +145,13 @@ func (c *ArticleController) GetArticle(ctx *gin.Context) {
 		"content": article.Content,
 	})
 }
+
+func (c *ArticleController) GetArticleList(ctx *gin.Context) {
+	// 读取/article/:id
+	//articleList := c.Repository.GetArticleList(c.Db)
+	ctx.JSON(200, gin.H{
+		"code": 0,
+		"msg":  "success",
+		"data": []string{"1", "2", "3"},
+	})
+}
