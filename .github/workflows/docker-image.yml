@@ -6,9 +6,13 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-latest # 这是 GitHub Actions 的服务器环境 eg: CentOS, Ubuntu, Windows Server, macOS
     steps:
+      #查看git是否安装，没安装则安装
+      - name: Check git
+        run: |
+          git --version || sudo apt-get install git -y
+
       - name: Checkout
         uses: actions/checkout@v2
 
