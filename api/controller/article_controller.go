@@ -154,4 +154,5 @@ func (c *ArticleController) GetArticleList(ctx *gin.Context) {
 		"msg":  "success",
 		"data": []string{"1", "2", "3"},
 	})
+
 }
