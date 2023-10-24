@@ -1,18 +1,33 @@
-name: Docker Image CI
+name: Push to Server and Build Docker Compose
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches: [ main ]
 
 jobs:
-
-  build:
-
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Push to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }} # 这是你的服务器地址
+          username: ${{ secrets.SERVER_USERNAME }} # 这是你的服务器用户名
+          password: ${{ secrets.SERVER_PASSWORD }} # 这是你的服务器密码
+          script: |
+            cd /root/web_serve2.0-dev # 这是你的项目路径
+            git pull origin master # 这是你的项目分支
+
+      - name: Build and Run Docker Compose
+        uses: appleboy/ssh-action@master # 这是一个自定义的 Action，用于在服务器上执行命令
+        with:
+          host: ${{ secrets.SERVER_HOST }} # 这是你的服务器地址
+          username: ${{ secrets.SERVER_USERNAME }} # 这是你的服务器用户名
+          password: ${{ secrets.SERVER_PASSWORD }} # 这是你的服务器密码
+          script: |
+            cd /root/web_serve2.0-dev # 这是你的项目路径
+            docker-compose up -d --build

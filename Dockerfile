@@ -6,11 +6,6 @@ WORKDIR /app
 
 ADD . .
 
-# 安装 pandoc
-#RUN apk add --no-cache pandoc
-
-
-
 RUN go env -w GOPROXY=https://goproxy.cn,direct
 
 RUN go get -u github.com/swaggo/swag/cmd/swag
