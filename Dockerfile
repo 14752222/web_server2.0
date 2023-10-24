@@ -7,7 +7,7 @@ WORKDIR /app
 ADD . .
 
 # 安装 pandoc
-RUN apk add --no-cache pandoc
+#RUN apk add --no-cache pandoc
 
 
 
