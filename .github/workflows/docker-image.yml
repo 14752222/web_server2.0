@@ -37,6 +37,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }} # 这是你的服务器密码
           script: |
             cd /code/web_server2.0 # 这是你的项目路径
-            docker-compose stop app nginx        
-            docker-compose up --no-deps app nginx
+            docker-compose stop app nginx  
+            # 后台运行docker-compose up --no-deps app nginx
+            nohup docker-compose up --no-deps app nginx > /dev/null 2>&1 &
           
