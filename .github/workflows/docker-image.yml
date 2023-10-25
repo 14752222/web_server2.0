@@ -18,21 +18,23 @@ jobs:
           go-version: 1.12.17
 
       - name: init swagger and push tag
-        run:
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        run: |
           version=$(grep "version =" ./config/config.ini | awk -F= '{print $2}' | tr -d ' ')
           echo VERSION=$version >> $GITHUB_ENV
-          echo "-----------------"
           echo $version
-          echo "-----------------"
+          git config user.email "your-email@example.com"
+          git config user.name "Your Name"
           go env -w GOPROXY=https://goproxy.cn,direct
           go get -u github.com/swaggo/swag/cmd/swag
-          git tag $version
-          git show $version
           swag init
-          git checkout $version
+          git checkout -b feature/$version  # 创建一个新分支
           git add .
-          git commit -m tag:$version
-          git push origin --tags tag:$version
+          git commit -m "Swagger documentation and tag:$version"
+          git tag $version
+          git push origin $version  # 推送标签
+          git push origin feature/$version  # 推送新分支
 
       - name: Push to Server
         uses: appleboy/ssh-action@master
