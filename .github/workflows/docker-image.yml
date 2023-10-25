@@ -26,7 +26,8 @@ jobs:
           echo $version
           git config user.email "your-email@example.com"
           git config user.name "Your Name"
-          go env -w GOPROXY=https://goproxy.cn,direct
+          export GO111MODULE=on
+          export GOPROXY=https://goproxy.cn,direct
           go get -u github.com/swaggo/swag/cmd/swag
           swag init
           git checkout -b feature/$version  # 创建一个新分支
