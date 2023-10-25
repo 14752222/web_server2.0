@@ -12,19 +12,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # 安装go1.21
       - name: Install go
         uses: actions/setup-go@v2
         with:
           go-version: 1.12.17
         run:
-          # 读取./config/config.ini version属性 存为变量
           echo "version=$(cat ./config/config.ini | grep version | awk -F '=' '{print $2}')" >> $GITHUB_ENV
           go version
           go env -w GOPROXY=https://goproxy.cn,direct
           go get -u github.com/swaggo/swag/cmd/swag
           swag init
-          # 推送到github
           git add .
           git commit -m tag:$version
           git push origin tag:$version
