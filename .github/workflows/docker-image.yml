@@ -23,20 +23,30 @@ jobs:
           version=$(grep "version =" ./config/config.ini | awk -F= '{print $2}' | tr -d ' ')
           echo VERSION=$version >> $GITHUB_ENV
 
-      - name: init swagger and push tag
+      - name: Set up Git
         run: |
           git config user.email "1364952827@qq.com"
           git config user.name "ZZL"
+
+      - name: swag init
+        run: |
           export GO111MODULE=on
           export GOPROXY=https://goproxy.cn,direct
           go install github.com/swaggo/swag/cmd/swag@latest  # go get -u github.com/swaggo/swag/cmd/swag 
           swag init
+
+      - name: git pussh tag to remote
+        run: |
+          git tag $VERSION
+          git push origin feature/$VERSION  # 推送新分支
+        env:
+          GITHUB_TOKEN: ${{ secrets.ALL_TOKEN }}
+
+      - name: push tag
+        run: |
           git checkout -b feature/$VERSION  # 创建一个新分支
           git add .
           git commit -m "Swagger documentation and tag:$VERSION"
-          git tag $version
-          git push origin $VERSION  # 推送标签
-          git push origin feature/$VERSION  # 推送新分支
         env:
           GITHUB_TOKEN: ${{ secrets.ALL_TOKEN }}
 
