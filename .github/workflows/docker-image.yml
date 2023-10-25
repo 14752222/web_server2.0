@@ -16,6 +16,8 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.12.17
+
+      - name: init swagger and push tag
         run:
           echo "version=$(cat ./config/config.ini | grep version | awk -F '=' '{print $2}')" >> $GITHUB_ENV
           go version
