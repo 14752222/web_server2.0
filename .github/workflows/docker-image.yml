@@ -36,7 +36,8 @@ jobs:
           git push origin $version  # 推送标签
           git push origin feature/$version  # 推送新分支
         env:
-          GITHUB_TOKEN: ${{ secrets.ALL }}
+          GITHUB_TOKEN: ${{ secrets.ALL_TOKEN }}
+
       - name: Push to Server
         uses: appleboy/ssh-action@master
         with:
