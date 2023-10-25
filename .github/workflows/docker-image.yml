@@ -24,9 +24,10 @@ jobs:
           go env -w GOPROXY=https://goproxy.cn,direct
           go get -u github.com/swaggo/swag/cmd/swag
           swag init
+          git tag $version
           git add .
           git commit -m tag:$version
-          git push origin tag:$version
+          git push origin --tags tag:$version
 
       - name: Push to Server
         uses: appleboy/ssh-action@master
@@ -36,7 +37,8 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }} # 这是你的服务器密码
           script: |
             cd /code/web_server2.0 # 这是你的项目路径
-            git pull origin tag:$version
+            echo "version=$(cat ./config/config.ini | grep version | awk -F '=' '{print $2}')" >> $GITHUB_ENV
+            git fetch origin $version
 
 
       - name: Build and Run Docker Compose
