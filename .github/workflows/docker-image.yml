@@ -8,16 +8,26 @@ jobs:
   deploy:
     runs-on: ubuntu-latest # 这是 GitHub Actions 的服务器环境 eg: CentOS, Ubuntu, Windows Server, macOS
     steps:
-      #查看git是否安装，没安装则安装
-      - name: Check git
-        run: |
-          git --version || sudo apt-get install git -y
 
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: show host
-        run: echo ${{ secrets.SERVER_HOST }}
+      #安装go1.21
+      - name: Install go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.12.17
+        run:
+          # 读取./config/config.ini version属性 存为变量
+          echo "version=$(cat ./config/config.ini | grep version | awk -F '=' '{print $2}')" >> $GITHUB_ENV
+          go version
+          go env -w GOPROXY=https://goproxy.cn,direct
+          go get -u github.com/swaggo/swag/cmd/swag
+          swag init
+          #推送到github
+          git add .
+          git commit -m tag:$version
+          git push origin tag:$version
 
       - name: Push to Server
         uses: appleboy/ssh-action@master
@@ -27,7 +37,8 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }} # 这是你的服务器密码
           script: |
             cd /code/web_server2.0 # 这是你的项目路径
-            git pull origin master # 这是你的项目分支
+            git pull origin tag:$version
+
 
       - name: Build and Run Docker Compose
         uses: appleboy/ssh-action@master # 这是一个自定义的 Action，用于在服务器上执行命令
@@ -40,4 +51,5 @@ jobs:
             docker-compose stop app nginx  
             # 后台运行docker-compose up --no-deps app nginx
             nohup docker-compose up --no-deps app nginx > /dev/null 2>&1 &
+            
           
