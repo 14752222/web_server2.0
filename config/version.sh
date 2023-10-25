@@ -3,7 +3,7 @@
 #!/bin/bash
 
 # 从配置文件中提取版本号
-version=$(grep "version =" ./config.ini | awk -F '=' '{print $2}' | tr -d ' ')
+version=$(grep "version =" ./config/config.ini | awk -F '=' '{print $2}' | tr -d ' ')
 
 # 将版本号拆分为主版本、次版本和修订版本
 IFS='.' read -ra parts <<< "$version"
