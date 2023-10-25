@@ -1,6 +1,4 @@
 #!/bin/bash
- # 找到 ./config.int 里面的版本号 每次触发构建都会自动加1
-#!/bin/bash
 
 # 从配置文件中提取版本号
 version=$(grep "version =" ./config/config.ini | awk -F '=' '{print $2}' | tr -d ' ')
@@ -24,7 +22,6 @@ fi
 
 # 重新构建版本号
 new_version="${parts[0]}.${parts[1]}.${parts[2]}"
-
 
 # 将新版本号写入配置文件
 sed -i "s/version = $version/version = $new_version/g" ./config.ini
