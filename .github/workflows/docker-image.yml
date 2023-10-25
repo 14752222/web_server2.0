@@ -21,11 +21,9 @@ jobs:
         run:
           version=$(grep "version =" ./config/config.ini | awk -F= '{print $2}' | tr -d ' ')
           echo VERSION=$version >> $GITHUB_ENV
-          
           echo "-----------------"
           echo $version
           echo "-----------------"
-          
           go env -w GOPROXY=https://goproxy.cn,direct
           go get -u github.com/swaggo/swag/cmd/swag
           git tag $version
