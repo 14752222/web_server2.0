@@ -16,6 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: show host
+        run: echo ${{ secrets.SERVER_HOST }}
+
       - name: Push to Server
         uses: appleboy/ssh-action@master
         with:
@@ -33,7 +36,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }} # 这是你的服务器用户名
           password: ${{ secrets.SERVER_PASSWORD }} # 这是你的服务器密码
           script: |
-            cd /root/web_serve2.0-dev # 这是你的项目路径
+            cd /root/web_serve2.0-dev # 这是你的项目路径x
             docker-compose up -d --build
       # 生成一个带版本号的git仓库 ，tag自动加1
       - name: Create git tag
