@@ -28,10 +28,10 @@ type ArticleController struct {
 // @Accept  json
 // @Produce  json
 // @Param article body repository2.Article true "文章"
-// @Success 200 {object} gin.H{}
+// @Success 200 {object} string "success"
 // @Router /user/article/add [post]
 // @Security ApiKeyAuth
-// @Failure 400 {object} gin.H{}
+// @Failure 400 {object} string "error"
 func (c *ArticleController) AddArticle(ctx *gin.Context) {
 	// 获取参数
 	var article repository2.Article
