@@ -26,7 +26,6 @@ jobs:
           echo $version
           echo "-----------------"
           
-          go version
           go env -w GOPROXY=https://goproxy.cn,direct
           go get -u github.com/swaggo/swag/cmd/swag
           git tag $version
