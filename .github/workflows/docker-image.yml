@@ -19,7 +19,6 @@ jobs:
       - name: show host
         run: echo ${{ secrets.SERVER_HOST }}
 
-
       - name: Push to Server
         uses: appleboy/ssh-action@master
         with:
