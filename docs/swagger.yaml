@@ -12,28 +12,28 @@ definitions:
         type: string
       token:
         type: string
-      userInfo: { }
+      userInfo: {}
     type: object
 info:
-  contact: { }
+  contact: {}
 paths:
   /api/v1/login/auth_code_login:
     post:
       consumes:
-        - application/json
+      - application/json
       parameters:
-        - description: 邮箱
-          in: query
-          name: email
-          required: true
-          type: string
-        - description: 验证码
-          in: query
-          name: authCode
-          required: true
-          type: string
+      - description: 邮箱
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: 验证码
+        in: query
+        name: authCode
+        required: true
+        type: string
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
@@ -45,13 +45,13 @@ paths:
             type: string
       summary: 验证码登录
       tags:
-        - 登录/注册
+      - 登录/注册
   /api/v1/login/get_UserInfo:
     post:
       consumes:
-        - application/json
+      - application/json
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
@@ -63,13 +63,13 @@ paths:
             type: string
       summary: 获取用户权限
       tags:
-        - 用户
+      - 用户
   /api/v1/login/get_user_info:
     post:
       consumes:
-        - application/json
+      - application/json
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
@@ -81,20 +81,20 @@ paths:
             type: string
       summary: 获取用户信息
       tags:
-        - 用户
+      - 用户
   /api/v1/login/register:
     post:
       parameters:
-        - description: email
-          in: query
-          name: email
-          required: true
-          type: string
-        - description: password
-          in: query
-          name: password
-          required: true
-          type: string
+      - description: email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: password
+        in: query
+        name: password
+        required: true
+        type: string
       responses:
         "200":
           description: OK
@@ -102,24 +102,24 @@ paths:
             type: string
       summary: 注册
       tags:
-        - 登录/注册
+      - 登录/注册
   /api/v1/login/send_email:
     post:
       consumes:
-        - application/json
+      - application/json
       parameters:
-        - description: 邮箱
-          in: query
-          name: email
-          required: true
-          type: string
-        - description: 验证码
-          in: query
-          name: authCode
-          required: true
-          type: string
+      - description: 邮箱
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: 验证码
+        in: query
+        name: authCode
+        required: true
+        type: string
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
@@ -131,24 +131,24 @@ paths:
             $ref: '#/definitions/types.ErrorResponse'
       summary: 发送邮件
       tags:
-        - 登录/注册
+      - 登录/注册
   /login:
     post:
       consumes:
-        - application/json
+      - application/json
       parameters:
-        - description: 邮箱
-          in: query
-          name: email
-          required: true
-          type: string
-        - description: 密码
-          in: query
-          name: password
-          required: true
-          type: string
+      - description: 邮箱
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: 密码
+        in: query
+        name: password
+        required: true
+        type: string
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: OK
@@ -156,5 +156,5 @@ paths:
             type: string
       summary: 登录
       tags:
-        - 登录/注册
+      - 登录/注册
 swagger: "2.0"
