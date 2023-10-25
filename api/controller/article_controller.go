@@ -21,10 +21,10 @@ type ArticleController struct {
 	Minio      *client.FileManager
 }
 
-//swagger
+// AddArticle 添加文章
 // @Summary 添加文章
 // @Description 添加文章
-// @Tags article
+// @Tags 文章
 // @Accept  json
 // @Produce  json
 // @Param article body repository2.Article true "文章"
@@ -32,7 +32,6 @@ type ArticleController struct {
 // @Router /user/article/add [post]
 // @Security ApiKeyAuth
 // @Failure 400 {object} gin.H{}
-
 func (c *ArticleController) AddArticle(ctx *gin.Context) {
 	// 获取参数
 	var article repository2.Article

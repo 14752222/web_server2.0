@@ -27,7 +27,7 @@ type LoginController struct {
 // @version 1.0
 // @param email query string true "邮箱"
 // @param password query string true "密码"
-// @router /login [post]
+// @router /api/v1/login [post]
 // @Accept json
 // @Produce json
 // @Success 200 {string} success
