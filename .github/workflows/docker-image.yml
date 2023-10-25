@@ -35,3 +35,11 @@ jobs:
           script: |
             cd /root/web_serve2.0-dev # 这是你的项目路径
             docker-compose up -d --build
+      # 生成一个带版本号的git仓库 ，tag自动加1
+      - name: Create git tag
+        run: |
+          git config --global user.name "zzl"
+          git config --global user.email "1364952827@qq.com"
+            git tag -a v1.0.0 -m "v1.0.0"
+            git push origin v1.0.0
+          
