@@ -24,8 +24,9 @@ jobs:
           go version
           go env -w GOPROXY=https://goproxy.cn,direct
           go get -u github.com/swaggo/swag/cmd/swag
-          swag init
           git tag $version
+          git show $version
+          swag init
           git checkout $version
           git add .
           git commit -m tag:$version
