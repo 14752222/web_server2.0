@@ -18,8 +18,6 @@ jobs:
           go-version: 1.20.1
 
       - name: init swagger and push tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
           version=$(grep "version =" ./config/config.ini | awk -F= '{print $2}' | tr -d ' ')
           echo VERSION=$version >> $GITHUB_ENV
@@ -37,7 +35,8 @@ jobs:
           git tag $version
           git push origin $version  # 推送标签
           git push origin feature/$version  # 推送新分支
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.ALL }}
       - name: Push to Server
         uses: appleboy/ssh-action@master
         with:
