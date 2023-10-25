@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      #安装go1.21
+      # 安装go1.21
       - name: Install go
         uses: actions/setup-go@v2
         with:
@@ -24,7 +24,7 @@ jobs:
           go env -w GOPROXY=https://goproxy.cn,direct
           go get -u github.com/swaggo/swag/cmd/swag
           swag init
-          #推送到github
+          # 推送到github
           git add .
           git commit -m tag:$version
           git push origin tag:$version
