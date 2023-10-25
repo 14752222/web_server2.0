@@ -19,7 +19,8 @@ jobs:
 
       - name: init swagger and push tag
         run:
-          echo "version=$(cat ./config/config.ini | grep version | awk -F '=' '{print $2}')" >> $GITHUB_ENV
+          version=$(grep "version =" ./config/config.ini | awk -F= '{print $2}' | tr -d ' ')
+          echo VERSION=$version >> $GITHUB_ENV
           echo $version
           go version
           go env -w GOPROXY=https://goproxy.cn,direct
@@ -40,8 +41,7 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }} # 这是你的服务器密码
           script: |
             cd /code/web_server2.0 # 这是你的项目路径
-            echo "version=$(cat ./config/config.ini | grep version | awk -F '=' '{print $2}')" >> $GITHUB_ENV
-            git fetch origin $version
+            git fetch origin $VERSION
 
 
       - name: Build and Run Docker Compose
