@@ -36,7 +36,8 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }} # 这是你的服务器用户名
           password: ${{ secrets.SERVER_PASSWORD }} # 这是你的服务器密码
           script: |
-            cd /code/web_server2.0 # 这是你的项目路径x
+            cd /code/web_server2.0 # 这是你的项目路径
+            docker-compose down
             docker-compose up -d --build
       # 生成一个带版本号的git仓库 ，tag自动加1
       - name: Create git tag
