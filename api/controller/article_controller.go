@@ -124,6 +124,14 @@ func (c *ArticleController) AddArticle(ctx *gin.Context) {
 	//c.Redis.Set(ctx, fmt.Sprintf(`cron:%s`, cronId), cronId, tanget.Sub(time.Now()))
 }
 
+// GetArticleList 获取文章列表
+// @Summary 获取文章列表
+// @Description 获取文章列表
+// @Tags 文章
+// @Accept  json
+// @Produce  json
+// @Param page query int true "页码"
+
 func (c *ArticleController) GetArticle(ctx *gin.Context) {
 	// 读取/article/:id
 	articleId := ctx.Param("id")

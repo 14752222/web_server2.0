@@ -21,7 +21,7 @@ jobs:
         run: |
           sh ./config/version.sh   # 执行config/version.sh 脚本 #!/bin/bash
           version=$(grep "version =" ./config/config.ini | awk -F= '{print $2}' | tr -d ' ')
-          echo VERSION=$version >> $GITHUB_ENV
+          echo "::set-env name=VERSION::$version"
           echo $version
 
       - name: init swagger and push tag
