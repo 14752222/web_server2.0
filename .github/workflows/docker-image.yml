@@ -17,13 +17,17 @@ jobs:
         with:
           go-version: 1.20.1
 
+      - name: Generate new version
+        run: |
+          sh ./config/version.sh   # 执行config/version.sh 脚本 #!/bin/bash
+
       - name: init swagger and push tag
         run: |
           version=$(grep "version =" ./config/config.ini | awk -F= '{print $2}' | tr -d ' ')
           echo VERSION=$version >> $GITHUB_ENV
           echo $version
-          git config user.email "your-email@example.com"
-          git config user.name "Your Name"
+          git config user.email "1364952827@qq.com"
+          git config user.name "ZZL"
           export GO111MODULE=on
           export GOPROXY=https://goproxy.cn,direct
           go install github.com/swaggo/swag/cmd/swag@latest  # go get -u github.com/swaggo/swag/cmd/swag 
