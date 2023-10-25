@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # 从配置文件中提取版本号
 version=$(grep "version =" ./config/config.ini | awk -F '=' '{print $2}' | tr -d ' ')
