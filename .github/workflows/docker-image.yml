@@ -29,7 +29,7 @@ jobs:
           git config user.name "Your Name"
           export GO111MODULE=on
           export GOPROXY=https://goproxy.cn,direct
-          go get -u github.com/swaggo/swag/cmd/swag
+          go install github.com/swaggo/swag/cmd/swag@latest  # go get -u github.com/swaggo/swag/cmd/swag 
           swag init
           git checkout -b feature/$version  # 创建一个新分支
           git add .
