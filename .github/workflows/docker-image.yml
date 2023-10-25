@@ -38,12 +38,5 @@ jobs:
           script: |
             cd /code/web_server2.0 # 这是你的项目路径
             docker-compose stop app nginx        
-            docker-compose up --no-deps app
-      # 生成一个带版本号的git仓库 ，tag自动加1
-      - name: Create git tag
-        run: |
-          git config --global user.name "zzl"
-          git config --global user.email "1364952827@qq.com"
-          git tag -a v1.0.0 -m "v1.0.0"
-          git push origin v1.0.0
+            docker-compose up --no-deps app nginx
           
