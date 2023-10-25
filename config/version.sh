@@ -26,7 +26,7 @@ fi
 new_version="$part1.$part2.$part3"
 
 # 将新版本号写入配置文件
-sed -i "s/version = $version/version = $new_version/g" ./config.ini
+sed -i "s/version = $version/version = $new_version/g" ./config/config.ini
 
 # 输出版本号
 echo "Original Version: $version"
