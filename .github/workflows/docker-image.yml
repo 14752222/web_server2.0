@@ -61,6 +61,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.ALL_TOKEN }}
 
+      - name: git genrate tag
+        run: |
+          git tag $VERSION
+          git push origin $VERSION
+        env:
+          GITHUB_TOKEN: ${{ secrets.ALL_TOKEN }}
+
       - name: Build and Run Docker Compose
         uses: appleboy/ssh-action@master # 这是一个自定义的 Action，用于在服务器上执行命令
         with:
