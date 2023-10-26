@@ -27,6 +27,7 @@ jobs:
         run: |
           git config user.email "1364952827@qq.com"
           git config user.name "ZZL"
+          git status
 
       - name: swag init
         run: |
@@ -34,6 +35,9 @@ jobs:
           export GOPROXY=https://goproxy.cn,direct
           go install github.com/swaggo/swag/cmd/swag@latest  # go get -u github.com/swaggo/swag/cmd/swag 
           swag init
+      - name: Pull and merge remote changes
+        run: |
+          git pull origin feature/$VERSION    
 
       - name: git push tag to remote
         run: |
