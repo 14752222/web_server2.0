@@ -15,6 +15,7 @@ import (
 )
 
 type LoginController struct {
+	Result     *BaseController
 	Env        *config.Env
 	Db         *gorm.DB
 	Repository *repository.LoginRepository
@@ -38,37 +39,42 @@ func (lc *LoginController) Login(ctx *gin.Context) {
 		ctx.JSON(400, gin.H{
 			"message": err.Error(),
 		})
+		lc.Result.SendError(ctx, 0, err.Error(), nil)
 		return
 	}
 	ok, user := lc.Repository.IsUserExist(lc.Db, login.Email)
 
 	if !ok {
-		ctx.JSON(400, gin.H{
-			"message": "用户不存在",
-			"code":    "400",
-		})
+		//ctx.JSON(400, gin.H{
+		//	"message": "用户不存在",
+		//	"code":    "400",
+		//})
+		lc.Result.SendError(ctx, -1, "用户不存在", nil)
 		return
 	}
 	if !utils.EqualMd5(user.Password, login.Password) {
-		ctx.JSON(400, gin.H{
-			"message": "密码错误",
-			"code":    "400",
-		})
+		//ctx.JSON(400, gin.H{
+		//	"message": "密码错误",
+		//	"code":    "400",
+		//})
+		lc.Result.SendError(ctx, 0, "密码错误", nil)
 		return
 	}
 
 	token, err := utils.CreateToken(user, lc.Env.SecretKey)
 	if err != nil {
-		ctx.JSON(400, gin.H{
-			"message": `服务端错误`,
-		})
+		//ctx.JSON(400, gin.H{
+		//	"message": `服务端错误`,
+		//})
+		lc.Result.SendError(ctx, -1, `服务端错误`, nil)
 		return
 	}
-	ctx.JSON(200, gin.H{
-		"message": "success",
-		"code":    "200",
-		"token":   token,
-	})
+	//ctx.JSON(200, gin.H{
+	//	"message": "success",
+	//	"code":    "200",
+	//	"token":   token,
+	//})
+	lc.Result.SendSuccess(ctx, 200, "success", token)
 	return
 
 }
@@ -94,12 +100,12 @@ func (lc *LoginController) Register(ctx *gin.Context) {
 	fmt.Println(`1 request:`, request)
 	if err != nil {
 		fmt.Println(`err:`, err)
-		ctx.JSON(400, types.ErrorResponse{Message: `参数错误`})
+		lc.Result.SendError(ctx, 0, `参数错误`, nil)
 		return
 	}
 
 	if request.Password != request.RPassword {
-		ctx.JSON(400, types.ErrorResponse{Message: "两次密码不一致"})
+		lc.Result.SendError(ctx, 0, "两次密码不一致", nil)
 		return
 	}
 
@@ -107,48 +113,41 @@ func (lc *LoginController) Register(ctx *gin.Context) {
 	isUserExist, _ := lc.Repository.IsUserExist(lc.Db, request.Email)
 
 	if isUserExist {
-		ctx.JSON(400, types.ErrorResponse{Message: "用户已存在"})
+		lc.Result.SendError(ctx, -1, "用户已存在", nil)
 		return
 	}
 
 	authCode, err := lc.Redis.Get(ctx.Request.Context(), request.Email).Result()
 
 	if err != nil {
-		ctx.JSON(400, types.ErrorResponse{Message: "验证码已过期"})
+		lc.Result.SendError(ctx, 0, "验证码已过期", nil)
 		return
 	}
 
 	if authCode != request.AuthCode {
-		ctx.JSON(400, types.ErrorResponse{Message: "验证码错误"})
+		lc.Result.SendError(ctx, 0, "验证码错误", nil)
 		return
 	}
 
 	// create user
 	ok, user := lc.Repository.CreateUser(lc.Db, request.Email, utils.CreateMd5(request.Password))
-	fmt.Println(`user:`, user)
-	fmt.Println(`ok:`, ok)
 
 	if !ok {
-		ctx.JSON(400, types.ErrorResponse{Message: "注册失败"})
+		lc.Result.SendError(ctx, -1, "注册失败", nil)
 		return
 	}
 
 	// create token
 	token, err := utils.CreateToken(user, lc.Env.SecretKey)
 	if err != nil {
-		ctx.JSON(400, types.ErrorResponse{Message: "服务端错误"})
+		lc.Result.SendError(ctx, -1, "服务端错误", nil)
 		return
 	}
 
-	ctx.JSON(200, types.RegisterResponse{
-		Message: "注册成功",
-		Code:    200,
-		Data: types.Data{
-			UserInfo: user,
-			Token:    token,
-		},
+	lc.Result.SendSuccess(ctx, 1, "注册成功", gin.H{
+		"token": token,
+		"user":  user,
 	})
-
 }
 
 // SendEmail 发送邮件
@@ -166,7 +165,8 @@ func (lc *LoginController) SendEmail(ctx *gin.Context) {
 	err := ctx.ShouldBind(&request)
 	fmt.Println(`request:`, request)
 	if err != nil {
-		ctx.JSON(400, types.ErrorResponse{Message: err.Error()})
+		//ctx.JSON(400, types.ErrorResponse{Message: err.Error()})
+		lc.Result.SendError(ctx, 0, err.Error(), nil)
 		return
 	}
 	fmt.Println(request)
@@ -174,17 +174,18 @@ func (lc *LoginController) SendEmail(ctx *gin.Context) {
 	isUserExist, _ := lc.Repository.IsUserExist(lc.Db, request.Email)
 
 	if isUserExist {
-		ctx.JSON(400, types.ErrorResponse{Message: "用户已存在"})
+		//ctx.JSON(400, types.ErrorResponse{Message: "用户已存在"})
+		lc.Result.SendError(ctx, -1, "用户已存在", nil)
 		return
 	}
 
 	//fake send email
 	code := utils.CreateCheckCode(6, false)
-	fmt.Println(`code:`, code)
 	err = utils.SendEmail(request.Email, "", code)
 
 	if err != nil {
-		ctx.JSON(400, types.ErrorResponse{Message: err.Error()})
+		//ctx.JSON(400, types.ErrorResponse{Message: err.Error()})
+		lc.Result.SendError(ctx, 0, err.Error(), nil)
 		return
 	}
 
@@ -192,15 +193,13 @@ func (lc *LoginController) SendEmail(ctx *gin.Context) {
 	context := ctx.Request.Context()
 	err = lc.Redis.Set(context, request.Email, code, time.Minute*3).Err()
 
-	key, err := lc.Redis.Get(context, request.Email).Result()
-	fmt.Println("key ", key, err)
-
 	if err != nil {
-		ctx.JSON(400, types.ErrorResponse{Message: err.Error()})
+		lc.Result.SendError(ctx, 0, err.Error(), nil)
 		return
 	}
 
-	ctx.JSON(200, types.SuccessResponse{Message: "发送成功"})
+	//ctx.JSON(200, types.SuccessResponse{Message: "发送成功"})
+	lc.Result.SendSuccess(ctx, 1, "发送成功", nil)
 
 }
 

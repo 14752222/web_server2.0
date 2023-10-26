@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
@@ -9,9 +8,10 @@ import (
 )
 
 type UserController struct {
-	Env   *config.Env
-	Db    *gorm.DB
-	Redis *redis.Client
+	Result *BaseController
+	Env    *config.Env
+	Db     *gorm.DB
+	Redis  *redis.Client
 }
 
 // GetUserInfo 获取用户信息
@@ -26,18 +26,11 @@ func (uc *UserController) GetUserInfo(ctx *gin.Context) {
 	//获取token
 	user, err := ctx.Get("x-user-id")
 	if !err {
-		ctx.JSON(200, gin.H{
-			"code": 400,
-			"msg":  "获取用户信息失败",
-			"data": nil,
-		})
+		uc.Result.SendError(ctx, -1, "获取用户信息失败", nil)
 		return
 	}
-	ctx.JSON(200, gin.H{
-		"code": 200,
-		"msg":  "获取用户信息成功",
-		"data": user,
-	})
+
+	uc.Result.SendSuccess(ctx, 200, "获取用户信息成功", user)
 }
 
 // GetUserPermission 获取用户权限
@@ -52,20 +45,19 @@ func (uc *UserController) GetUserPermission(ctx *gin.Context) {
 	//获取token
 	user, err := ctx.Get("x-user-id")
 	if !err {
-		ctx.JSON(200, gin.H{
-			"code": 400,
-			"msg":  "获取用户信息失败",
-			"data": nil,
-		})
+		//ctx.JSON(200, gin.H{
+		//	"code": 400,
+		//	"msg":  "获取用户信息失败",
+		//	"data": nil,
+		//})
+		uc.Result.SendError(ctx, -1, "获取用户信息失败", nil)
 		return
 	}
-	fmt.Println(user)
-	ctx.JSON(200, gin.H{
-		"code": 200,
-		"msg":  "获取用户权限成功",
-		"data": user,
-	})
-
-	//获 user 权限列表
-
+	//fmt.Println(user)
+	//ctx.JSON(200, gin.H{
+	//	"code": 200,
+	//	"msg":  "获取用户权限成功",
+	//	"data": user,
+	//})
+	uc.Result.SendSuccess(ctx, 200, "获取用户权限成功", user)
 }

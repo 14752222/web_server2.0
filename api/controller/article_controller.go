@@ -14,6 +14,7 @@ import (
 )
 
 type ArticleController struct {
+	Result     *BaseController
 	Env        *config.Env
 	Db         *gorm.DB
 	Repository *repository.ArticleRepository
@@ -38,11 +39,7 @@ func (c *ArticleController) AddArticle(ctx *gin.Context) {
 	err := ctx.ShouldBind(&article)
 
 	if err != nil {
-		ctx.JSON(200, gin.H{
-			"code": 1,
-			"data": err,
-			"msg":  "参数错误",
-		})
+		c.Result.SendError(ctx, 0, "参数错误", nil)
 		return
 	}
 
@@ -56,11 +53,7 @@ func (c *ArticleController) AddArticle(ctx *gin.Context) {
 	ok := htmloptions.CreateHtml()
 
 	if !ok {
-		ctx.JSON(200, gin.H{
-			"code": 1,
-			"data": err,
-			"msg":  "系统错误",
-		})
+		c.Result.SendError(ctx, -1, "系统错误", nil)
 		return
 	}
 	fileInfo, err := c.Minio.UploadFile(&client.FileDesc{
@@ -70,11 +63,7 @@ func (c *ArticleController) AddArticle(ctx *gin.Context) {
 		ContentType: "application/html",
 	})
 	if err != nil {
-		ctx.JSON(200, gin.H{
-			"code": 1,
-			"data": err,
-			"msg":  "系统错误",
-		})
+		c.Result.SendError(ctx, -1, "系统错误", nil)
 		return
 	}
 
@@ -88,11 +77,7 @@ func (c *ArticleController) AddArticle(ctx *gin.Context) {
 	}
 
 	// 返回结果
-	ctx.JSON(200, gin.H{
-		"code": 0,
-		"msg":  "success",
-		"data": data,
-	})
+	c.Result.SendSuccess(ctx, 1, "成功", data)
 
 	htmloptions.DeleteFile()
 
