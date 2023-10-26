@@ -35,14 +35,14 @@ jobs:
           go install github.com/swaggo/swag/cmd/swag@latest  # go get -u github.com/swaggo/swag/cmd/swag 
           swag init
 
-      - name: git pussh tag to remote
+      - name: git push tag to remote
         run: |
           git tag $VERSION
-          git checkout -b feature/$VERSION
-          git push origin feature/$VERSION  # 推送新分支
-          
+          git checkout -b feature/$VERSION # 创建新分支
           git add .
           git commit -m "Swagger documentation and tag:$VERSION"
+          git push origin feature/$VERSION  # 推送新分支
+
         env:
           GITHUB_TOKEN: ${{ secrets.ALL_TOKEN }}
 
