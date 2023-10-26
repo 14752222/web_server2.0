@@ -92,6 +92,8 @@ jobs:
             # 切换到 feature/$VERSION 分支
             git checkout feature/$VERSION
             
+            git branch
+            
             # 拉取最新的远程分支
             git pull origin feature/$VERSION
             

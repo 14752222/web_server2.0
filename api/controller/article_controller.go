@@ -94,19 +94,6 @@ func (c *ArticleController) AddArticle(ctx *gin.Context) {
 				return
 			}
 		})
-	//cronId, err := utils.AddCronJob(fmt.Sprintf(`0 0 0 %v * *`, tanget), func() {
-	//	err := c.Minio.RemoveFile(fileInfo.Bucket, fileInfo.Key)
-	//	if err != nil {
-	//		fmt.Println(`删除文件失败`)
-	//		return
-	//	}
-	//})
-	//if err != nil {
-	//	fmt.Println(`添加定时任务失败`, err)
-	//	return
-	//}
-	//fmt.Println(`添加定时任务成功`, cronId)
-	//c.Redis.Set(ctx, fmt.Sprintf(`cron:%s`, cronId), cronId, tanget.Sub(time.Now()))
 }
 
 // GetArticleList 获取文章列表
