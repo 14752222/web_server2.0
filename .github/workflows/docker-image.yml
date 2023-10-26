@@ -46,17 +46,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.ALL_TOKEN }}
 
-      - name: Push to Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }} # 这是你的服务器地址
-          username: ${{ secrets.SERVER_USERNAME }} # 这是你的服务器用户名
-          password: ${{ secrets.SERVER_PASSWORD }} # 这是你的服务器密码
-          script: |
-            cd /code/web_server2.0 # 这是你的项目路径
-            git fetch origin $VERSION
-
-
       - name: Build and Run Docker Compose
         uses: appleboy/ssh-action@master # 这是一个自定义的 Action，用于在服务器上执行命令
         with:
@@ -65,8 +54,8 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }} # 这是你的服务器密码
           script: |
             cd /code/web_server2.0 # 这是你的项目路径
+             git fetch origin $VERSION # 拉取远程分支
             docker-compose stop app nginx  
-            # 后台运行docker-compose up --no-deps app nginx
             nohup docker-compose up --no-deps app nginx > /dev/null 2>&1 &
             
           
