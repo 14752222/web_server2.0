@@ -69,8 +69,6 @@ jobs:
             cd /code/web_server2.0
             echo $version is value 
             echo $VERSION is value 
-            # 写入version.txt
-            echo ${{ env.version  }} > version.txt
             
             #            git -c credential.helper= -c core.quotepath=false -c log.showSignature=false fetch origin --recurse-submodules=no --progress --prune
             #            git checkout "feature/$version"
