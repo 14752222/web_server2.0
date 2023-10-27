@@ -64,6 +64,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
+          version: ${{ env.VERSION }}
           script: |
             #            cd /code/web_server2.0
             #            git -c credential.helper= -c core.quotepath=false -c log.showSignature=false fetch origin --recurse-submodules=no --progress --prune
@@ -79,10 +80,10 @@ jobs:
             #            nohup docker-compose up --no-deps app nginx > /dev/null 2>&1 &
                     cd /code/web_server2.0
                     git -c credential.helper= -c core.quotepath=false -c log.showSignature=false fetch origin --recurse-submodules=no --progress --prune
-                    echo "version is $VERSION"
-                    echo "version is $VERSION" > version.txt # 新建version.txt 写入 "version is $VERSION"
+                    echo "version is $version"
+                    echo "version is $version" > version.txt # 新建version.txt 写入 "version is $VERSION"
             # 拉取feature/$VERSION 分支
-                    git checkout feature/$VERSION
+                    git checkout feature/$version
                     git branch
             # 拉取最新的远程分支
-                    git pull origin feature/$VERSION
+                    git pull origin feature/$version
