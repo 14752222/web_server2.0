@@ -57,39 +57,45 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.ALL_TOKEN }}
 
-            #      - name: Build and Run Docker Compose
-            #        uses: appleboy/ssh-action@master # 这是一个自定义的 Action，用于在服务器上执行命令
-            #        with:
-            #          host: ${{ secrets.SERVER_HOST }} # 这是你的服务器地址
-            #          username: ${{ secrets.SERVER_USERNAME }} # 这是你的服务器用户名
-            #          password: ${{ secrets.SERVER_PASSWORD }} # 这是你的服务器密码
-            #          script: |
-            #            cd /code/web_server2.0 # 这是你的项目路径
-            #              # 切换feature/$VERSION分支
-            #            docker-compose stop app nginx
-          #            nohup docker-compose up --no-deps app nginx > /dev/null 2>&1 &
-
       - name: Build and Run Docker Compose
-        uses: appleboy/ssh-action@master
+        uses: AyoungTech/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          script: |
+          proxy_socks5_pwd: ${{ secrets.SERVER_PASSWORD }}
+          run: |
             cd /code/web_server2.0
-            echo $VERSION
-            
+            git -c credential.helper= -c core.quotepath=false -c log.showSignature=false fetch origin --recurse-submodules=no --progress --prune
+            echo "version is $VERSION"
             # 切换到 feature/$VERSION 分支
             git checkout feature/$VERSION
-            
             git branch
-            
             # 拉取最新的远程分支
             git pull origin feature/$VERSION
-            
             # 停止 Docker Compose 服务
             docker-compose stop app nginx
-            
             # 后台启动 Docker Compose 服务
             nohup docker-compose up --no-deps app nginx > /dev/null 2>&1 &
+
+      #      - name: Build and Run Docker Compose
+      #        uses: appleboy/ssh-action@master
+      #        with:
+      #          host: ${{ secrets.SERVER_HOST }}
+      #          username: ${{ secrets.SERVER_USERNAME }}
+      #          password: ${{ secrets.SERVER_PASSWORD }}
+      #          script: |
+      #            cd /code/web_server2.0
+      #            git -c credential.helper= -c core.quotepath=false -c log.showSignature=false fetch origin --recurse-submodules=no --progress --prune
+      #            echo "version is $VERSION"
+      #            # 切换到 feature/$VERSION 分支
+      #            git checkout feature/$VERSION
+      #            git branch
+      #            # 拉取最新的远程分支
+      #            git pull origin feature/$VERSION
+      #            # 停止 Docker Compose 服务
+      #            docker-compose stop app nginx
+      #            # 后台启动 Docker Compose 服务
+      #            nohup docker-compose up --no-deps app nginx > /dev/null 2>&1 &
+
+
      
