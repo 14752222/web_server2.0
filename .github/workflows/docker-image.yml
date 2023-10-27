@@ -67,9 +67,13 @@ jobs:
           version: ${{ env.VERSION }}
           script: |
             cd /code/web_server2.0
-            git -c credential.helper= -c core.quotepath=false -c log.showSignature=false fetch origin --recurse-submodules=no --progress --prune
-            git checkout feature/$version
-            git branch
+            echo ${{ env.version  }} 
+            # 写入version.txt
+            echo ${{ env.version  }} > version.txt
+            
+            #            git -c credential.helper= -c core.quotepath=false -c log.showSignature=false fetch origin --recurse-submodules=no --progress --prune
+            #            git checkout "feature/$version"
+            #            git branch
             
             #            # 拉取最新的远程分支
             #            git pull origin feature/$version
