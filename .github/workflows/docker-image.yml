@@ -67,7 +67,8 @@ jobs:
           envs: ${{env}}
           script: |
             cd /code/web_server2.0
-            echo ${{ env.version  }} 
+            echo $version is value 
+            echo $VERSION is value 
             # 写入version.txt
             echo ${{ env.version  }} > version.txt
             
