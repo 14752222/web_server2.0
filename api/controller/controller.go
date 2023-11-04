@@ -1,6 +1,9 @@
 package controller
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
 
 type BaseController struct{}
 
@@ -27,21 +30,21 @@ type PageList struct {
 }
 
 func (b *BaseController) SendError(ctx *gin.Context, code int8, message string, data any) {
-	ctx.JSON(200, gin.H{
+	ctx.JSON(http.StatusOK, gin.H{
 		"code":    code,
 		"message": message,
 		"data":    data,
 	})
 }
 func (b *BaseController) SendSuccess(ctx *gin.Context, code int8, message string, data any) {
-	ctx.JSON(200, gin.H{
+	ctx.JSON(http.StatusOK, gin.H{
 		"code":    code,
 		"message": message,
 		"data":    data,
 	})
 }
 func (b *BaseController) SendPage(ctx *gin.Context, code int8, message string, data any, total int64, page int64, limit int64) {
-	ctx.JSON(200, gin.H{
+	ctx.JSON(http.StatusOK, gin.H{
 		"code":    code,
 		"message": message,
 		"data":    data,

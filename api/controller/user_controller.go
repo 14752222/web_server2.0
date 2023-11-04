@@ -30,7 +30,7 @@ func (uc *UserController) GetUserInfo(ctx *gin.Context) {
 		return
 	}
 
-	uc.Result.SendSuccess(ctx, 200, "获取用户信息成功", user)
+	uc.Result.SendSuccess(ctx, 1, "获取用户信息成功", user)
 }
 
 // GetUserPermission 获取用户权限
@@ -59,5 +59,5 @@ func (uc *UserController) GetUserPermission(ctx *gin.Context) {
 	//	"msg":  "获取用户权限成功",
 	//	"data": user,
 	//})
-	uc.Result.SendSuccess(ctx, 200, "获取用户权限成功", user)
+	uc.Result.SendSuccess(ctx, 1, "获取用户权限成功", user)
 }

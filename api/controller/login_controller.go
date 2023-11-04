@@ -74,7 +74,7 @@ func (lc *LoginController) Login(ctx *gin.Context) {
 	//	"code":    "200",
 	//	"token":   token,
 	//})
-	lc.Result.SendSuccess(ctx, 200, "success", token)
+	lc.Result.SendSuccess(ctx, 1, "success", token)
 	return
 
 }
