@@ -69,7 +69,7 @@ jobs:
             cd /code/web_server2.0
             echo $VERSION is value 
             git -c credential.helper= -c core.quotepath=false -c log.showSignature=false fetch origin --recurse-submodules=no --progress --prune
-            git checkout "feature/$VERSION"
+            git checkout "feature/$VERSION" -f
             git branch
             # 拉取最新的远程分支
             git pull origin feature/$VERSION
