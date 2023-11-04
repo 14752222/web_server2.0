@@ -64,7 +64,8 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          envs: ${{ env }}
+          envs:
+            VERSION=$VERSION
           script: |
             cd /code/web_server2.0
             echo $version is value 
