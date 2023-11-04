@@ -67,17 +67,13 @@ jobs:
           envs: VERSION
           script: |
             cd /code/web_server2.0
-            echo $version is value 
             echo $VERSION is value 
-            
-            #            git -c credential.helper= -c core.quotepath=false -c log.showSignature=false fetch origin --recurse-submodules=no --progress --prune
-            #            git checkout "feature/$version"
-            #            git branch
-            
-            #            # 拉取最新的远程分支
-            #            git pull origin feature/$version
-            
-            #            # 停止 Docker Compose 服务
-            #            docker-compose stop app nginx
-            #            # 后台启动 Docker Compose 服务
-          #            nohup docker-compose up --no-deps app nginx > /dev/null 2>&1 &
+            git -c credential.helper= -c core.quotepath=false -c log.showSignature=false fetch origin --recurse-submodules=no --progress --prune
+            git checkout "feature/$version"
+            git branch
+            # 拉取最新的远程分支
+            git pull origin feature/$version
+            # 停止 Docker Compose 服务
+            docker-compose stop app nginx
+            # 后台启动 Docker Compose 服务
+            nohup docker-compose up --no-deps app nginx > /dev/null 2>&1 &
