@@ -76,5 +76,4 @@ jobs:
             # 停止 Docker Compose 服务
             docker-compose stop app nginx
             # 后台启动 Docker Compose 服务
-            #            nohup docker-compose up --no-deps app nginx > /dev/null 2>&1 &
-                    nohup docker-compose up --no-deps --build app nginx > /dev/null 2>&1 &
+            nohup docker-compose up --no-deps --build  > /dev/null 2>&1 &
